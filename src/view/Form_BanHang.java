@@ -62,6 +62,7 @@ public class Form_BanHang extends javax.swing.JPanel implements Runnable, Thread
     private WebcamPanel webcamPanel = null;
     private Webcam webcam = null;
     private final Executor executor = Executors.newSingleThreadExecutor(this);
+    private volatile boolean isRunning = true;
 
     public Form_BanHang() {
         initComponents();
@@ -368,6 +369,14 @@ public class Form_BanHang extends javax.swing.JPanel implements Runnable, Thread
         SanPhamCT spctUpdate = spctService.selectById(idSP);
 
         Integer slMoi = spctUpdate.getSoLuong() - soLuong;
+
+        Integer trangThai;
+        if (slMoi == 0) {
+            trangThai = 2;
+        } else {
+            trangThai = 1;
+        }
+        spct.setTrangThai(trangThai);
         spct.setSoLuong(slMoi);
 
         spct.setId(spctUpdate.getId());
@@ -473,8 +482,16 @@ public class Form_BanHang extends javax.swing.JPanel implements Runnable, Thread
         SanPhamCT spct = new SanPhamCT();
         SanPhamCT spctUpdate = spctService.selectById(hdctBanDau.getId_SPCT());
 
+        Integer checkSL = newQuantity;
         try {
-            hdct.setSoLuong(newQuantity);
+            if (newQuantity >= hdctBanDau.getSoLuong()) {
+                if (spctUpdate.getSoLuong() == 0) {
+                    checkSL = hdctBanDau.getSoLuong();
+                }
+            } else {
+                checkSL = newQuantity;
+            }
+            hdct.setSoLuong(checkSL);
             hdct.setId(hdctBanDau.getId());
             if (newQuantity == 0) {
                 hdctSerivce.delete(idHdct);
@@ -487,9 +504,17 @@ public class Form_BanHang extends javax.swing.JPanel implements Runnable, Thread
             HoaDon hoaDon = hdService.selectByMa(maHD);
             this.fillTableGioHang(hoaDon);
 
-            Integer slThayDoi = newQuantity - hdctBanDau.getSoLuong();
+            Integer slThayDoi = checkSL - hdctBanDau.getSoLuong();
             Integer slMoi = spctUpdate.getSoLuong() - slThayDoi;
 
+            Integer trangThai;
+            if (slMoi > 0) {
+                trangThai = 1;
+            } else {
+                trangThai = 2;
+            }
+
+            spct.setTrangThai(trangThai);
             spct.setSoLuong(slMoi);
             spct.setId(spctUpdate.getId());
             this.updateDataProducts(spct);
@@ -505,6 +530,8 @@ public class Form_BanHang extends javax.swing.JPanel implements Runnable, Thread
 
         webcam = Webcam.getWebcams().get(0);
 
+        closeWebcam();
+
         webcam.setViewSize(size);
 
         webcamPanel = new WebcamPanel(webcam);
@@ -515,6 +542,12 @@ public class Form_BanHang extends javax.swing.JPanel implements Runnable, Thread
         pnlCam.add(webcamPanel, BorderLayout.CENTER);
 
         executor.execute(this);
+    }
+
+    private void closeWebcam() {
+        if (webcam != null && webcam.isOpen()) {
+            webcam.close();
+        }
     }
 
     @Override
@@ -529,21 +562,13 @@ public class Form_BanHang extends javax.swing.JPanel implements Runnable, Thread
             Result result = null;
             BufferedImage image = null;
 
-            if (webcam.isOpen()) {
-                if ((image = webcam.getImage()) == null) {
-                    continue;
-                }
-            }
-
-            if (image != null) {
+            // Đảm bảo rằng webcam đã mở và có hình ảnh trước khi xử lý
+            if (webcam != null && webcam.isOpen() && (image = webcam.getImage()) != null) {
                 LuminanceSource source = new BufferedImageLuminanceSource(image);
                 BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        webcamPanel.repaint();
-                    }
-                });
+
+                SwingUtilities.invokeLater(() -> webcamPanel.repaint());
+
                 try {
                     result = new MultiFormatReader().decode(bitmap);
                 } catch (NotFoundException ex) {
@@ -577,6 +602,10 @@ public class Form_BanHang extends javax.swing.JPanel implements Runnable, Thread
 
                     Integer soLuongSp = 0;
                     this.row = tblHoaDon.getSelectedRow();
+                    if (row < 0) {
+                        JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn để thêm sản phẩm!");
+                        continue;
+                    }
                     String maHD = (String) tblHoaDon.getValueAt(row, 1);
                     HoaDon hoaDon = hdService.selectByMa(maHD);
                     List<HoaDonChiTiet> list = hdctSerivce.selectByMaHD(hoaDon.getMa());
@@ -620,12 +649,23 @@ public class Form_BanHang extends javax.swing.JPanel implements Runnable, Thread
 
                     Integer slMoi = spctUpdate.getSoLuong() - soLuong;
                     spct.setSoLuong(slMoi);
-
+                    Integer trangThai;
+                    if (slMoi == 0) {
+                        trangThai = 2;
+                    } else {
+                        trangThai = 1;
+                    }
+                    spct.setTrangThai(trangThai);
                     spct.setId(spctUpdate.getId());
                     this.updateDataProducts(spct);
                 }
             }
-        } while (true);
+        } while (isRunning);
+    }
+
+    public void stopThread() {
+        isRunning = false;
+        closeWebcam();
     }
 
     @Override
@@ -731,8 +771,8 @@ public class Form_BanHang extends javax.swing.JPanel implements Runnable, Thread
         for (KhachHang khachHang : list) {
             if (!txtSDT.getText().trim().equals(khachHang.getSdt())) {
                 JOptionPane.showMessageDialog(this, "Khách hàng khồng tồn tại");
-                return;
             }
+            return;
         }
 
         if (txtTienTra.getText().trim().isEmpty() || txtTienTra.getText() == null) {
@@ -753,8 +793,8 @@ public class Form_BanHang extends javax.swing.JPanel implements Runnable, Thread
         lblTienThua.setText("");
         DefaultTableModel model = (DefaultTableModel) tblGioHang.getModel();
         model.setRowCount(0);
+        JOptionPane.showMessageDialog(this, "Thanh toán thành công!");
     }
-
     //Emd thanh toán
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -1427,18 +1467,21 @@ public class Form_BanHang extends javax.swing.JPanel implements Runnable, Thread
             this.row = tblSanPham.getSelectedRow();
             Integer slsp = (Integer) tblSanPham.getValueAt(row, 4);
             if (soLuong > slsp) {
-                JOptionPane.showMessageDialog(this, "Sản phẩm chỉ còn lại" + slsp);
+                JOptionPane.showMessageDialog(this, "Sản phẩm chỉ còn lại " + slsp);
                 soLuong = slsp;
             }
 
             //Thêm sp vào giỏ hàng
             Integer soLuongSp = 0;
             this.row = tblHoaDon.getSelectedRow();
+            if (row < 0) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn để thêm sản phẩm!");
+                return;
+            }
             String maHD = (String) tblHoaDon.getValueAt(row, 1);
             HoaDon hoaDon = hdService.selectByMa(maHD);
             List<HoaDonChiTiet> list = hdctSerivce.selectByMaHD(hoaDon.getMa());
 
-            this.row = tblSanPham.getSelectedRow();
             Integer idSP = (Integer) tblSanPham.getValueAt(row, 0);
 
             for (HoaDonChiTiet hoaDonChiTiet : list) {
@@ -1483,7 +1526,6 @@ public class Form_BanHang extends javax.swing.JPanel implements Runnable, Thread
 
     private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
         this.ThanhToan();
-        JOptionPane.showMessageDialog(this, "Thanh toán thành công!");
     }//GEN-LAST:event_btnThanhToanActionPerformed
 
     private void btnKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKhachHangActionPerformed
@@ -1555,7 +1597,7 @@ public class Form_BanHang extends javax.swing.JPanel implements Runnable, Thread
         // TODO add your handling code here:
         this.row = tblGioHang.getSelectedRow();
         if (row < 0) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn một sản phẩm để sửa!");
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một sản phẩm trong giỏ hàng để sửa!");
             return;
         }
         String input = JOptionPane.showInputDialog(this, "Nhập số lượng:");

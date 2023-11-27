@@ -1,0 +1,73 @@
+[33mcommit 1f2f8e8da6b072ed62846da6fc22c58bf87d80eb[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: a75bf21 971136a
+Author: HuyIT1280 <huyldph40152@fpt.edu.vn>
+Date:   Sat Nov 25 21:27:44 2023 +0700
+
+    update bán hàng
+
+[33mcommit a75bf21500680b8d86422e2998fd785af6b1565b[m
+Author: HuyIT1280 <huyldph40152@fpt.edu.vn>
+Date:   Sat Nov 25 21:17:16 2023 +0700
+
+    update ql bán hàng
+
+[33mcommit 971136aa0af6cec4591770ccaf358d6fe863df93[m
+Author: Mhieupro <hieuassz04@gmail.com>
+Date:   Sat Nov 25 20:52:44 2023 +0700
+
+    banhangservice
+
+[33mcommit e9765c1231b3a8e1633279257a18a3b32f9d0869[m
+Author: HuyIT1280 <huyldph40152@fpt.edu.vn>
+Date:   Fri Nov 24 21:38:19 2023 +0700
+
+    update data qlsp and giao diện bán hàng
+
+[33mcommit f0217c308d4c4c0c96bd8f97f54bf1430f0ff69e[m
+Merge: a3f4e6f a98d8fe
+Author: HuyIT1280 <huyldph40152@fpt.edu.vn>
+Date:   Thu Nov 23 16:08:38 2023 +0700
+
+    Merge branch 'master' of github.com:hieutmph56050/DUAN1_TEAM7
+
+[33mcommit a3f4e6f29053cac21deb50931b8f73b25c19e157[m
+Author: HuyIT1280 <huyldph40152@fpt.edu.vn>
+Date:   Thu Nov 23 16:06:04 2023 +0700
+
+     Update lại giao diện và code
+
+[33mcommit 18a1ed9c1f81ae5ca24235799e15683ac4b1d104[m
+Author: HuyIT1280 <huyldph40152@fpt.edu.vn>
+Date:   Wed Nov 22 14:02:00 2023 +0700
+
+    update validate
+
+[33mcommit a98d8feb663af6f250895761fc1c2709c8e550a8[m
+Author: hieutmph56050 <145522481+hieutmph56050@users.noreply.github.com>
+Date:   Wed Nov 22 06:48:01 2023 +0700
+
+    Giao diện phần bán hàng
+
+[33mcommit d9143b7404205b125b2e67c3da92a080151dbe2f[m
+Author: hieutmph56050 <145522481+hieutmph56050@users.noreply.github.com>
+Date:   Wed Nov 22 06:23:13 2023 +0700
+
+    update QLNV
+
+[33mcommit 4a21f772ba9502c3f048eb1d3ca64f12275a089f[m
+Author: HuyIT1280 <huyldph40152@fpt.edu.vn>
+Date:   Sun Nov 19 17:23:28 2023 +0700
+
+    update data quản lý sản phẩm and thuộc tính
+
+[33mcommit 2d92d90785c804f515e9cb16cfc7fc4f5107db99[m
+Author: HuyIT1280 <huyldph40152@fpt.edu.vn>
+Date:   Sun Nov 19 08:06:44 2023 +0700
+
+    update data filter
+
+[33mcommit 955b270ddcd3943eabd061f2ca51ed864cc6bead[m
+Author: hieutmph56050 <hieutm04@gmail.com>
+Date:   Sat Nov 18 23:45:56 2023 +0700
+
+    init project

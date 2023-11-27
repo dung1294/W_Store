@@ -27,9 +27,11 @@ public class Main extends javax.swing.JFrame {
                         setForm(new Form_QlSanPham());
                     case 2 ->
                         setForm(new Form_BanHang());
-                    case 10 ->
+                    case 6 ->
+                        setForm(new Form_QLVoucher());
+                    case 9 ->
                         logout();
-                    case 11 ->
+                    case 10 ->
                         exit();
                     default -> {
                     }

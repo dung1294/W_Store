@@ -13,7 +13,7 @@ import java.sql.DriverManager;
 public class JdbcHelper {
 
     static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    static String dburl = "jdbc:sqlserver://localhost;database=PRO1041;encrypt=false";
+    static String dburl = "jdbc:sqlserver://localhost;database=Da_1_Test;encrypt=false";
     static String user = "sa";
     static String pass = "songlong";
 

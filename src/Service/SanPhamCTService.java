@@ -65,11 +65,13 @@ public class SanPhamCTService {
         String sql = """
                      UPDATE [dbo].[SPCT]
                         SET [so_luong] = ?
+                            ,[trang_thai] = ?
                       WHERE ID = ?
                      """;
 
         JdbcHelper.update(sql,
                 entity.getSoLuong(),
+                entity.getTrangThai(),
                 entity.getId()
         );
     }
