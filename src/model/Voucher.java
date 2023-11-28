@@ -25,6 +25,11 @@ public class Voucher {
         this.nv = nv;
     }
 
+    public Voucher(String ma, String ten) {
+        this.ma = ma;
+        this.ten = ten;
+    }
+
     public Integer getId() {
         return id;
     }

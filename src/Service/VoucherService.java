@@ -187,8 +187,8 @@ public class VoucherService {
                              FROM dbo.KhuyenMai 
                              INNER JOIN dbo.Taikhoan ON dbo.KhuyenMai.tai_khoan_id = dbo.Taikhoan.ID
                             WHERE (dbo.KhuyenMai.ten like ? OR dbo.KhuyenMai.ma_khuyen_mai LIKE ?)
-                                    and ? Between year(dbo.KhuyenMai.ngay_tao) and year(dbo.KhuyenMai.ngay_tao)
-                                    and ? between Month(dbo.KhuyenMai.ngay_tao) and month(dbo.KhuyenMai.ngay_tao)
+                                    and year(dbo.KhuyenMai.ngay_tao) = ?
+                                    and month(dbo.KhuyenMai.ngay_tao) = ?
                      
                      """;
         return this.selectBySql(sql,
@@ -212,8 +212,8 @@ public class VoucherService {
                          FROM dbo.KhuyenMai 
                          INNER JOIN dbo.Taikhoan ON dbo.KhuyenMai.tai_khoan_id = dbo.Taikhoan.ID
                         WHERE (dbo.KhuyenMai.ten like ? OR dbo.KhuyenMai.ma_khuyen_mai LIKE ?)
-                                and ? Between year(dbo.KhuyenMai.ngay_tao) and year(dbo.KhuyenMai.ngay_tao)
-                                and ? between Month(dbo.KhuyenMai.ngay_tao) and month(dbo.KhuyenMai.ngay_tao)
+                                and year(dbo.KhuyenMai.ngay_tao) = ?
+                                and month(dbo.KhuyenMai.ngay_tao) = ?
                      ) AS FilteredResults
                      ORDER BY ID
                      OFFSET ? ROWS FETCH NEXT ? ROWS ONLY

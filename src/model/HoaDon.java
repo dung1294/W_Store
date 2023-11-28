@@ -18,7 +18,7 @@ public class HoaDon {
     public HoaDon() {
     }
 
-    public HoaDon(Integer id, String ma, Date ngayTao, Double tongGia, Integer trangThai, Integer idNV, Integer idKH) {
+    public HoaDon(Integer id, String ma, Date ngayTao, Double tongGia, Integer trangThai, Integer idNV, Integer idKH, Integer idKM, NhanVien nv, KhachHang kh) {
         this.id = id;
         this.ma = ma;
         this.ngayTao = ngayTao;
@@ -26,12 +26,15 @@ public class HoaDon {
         this.trangThai = trangThai;
         this.idNV = idNV;
         this.idKH = idKH;
+        this.idKM = idKM;
+        this.nv = nv;
+        this.kh = kh;
     }
 
     public HoaDon(String ma) {
         this.ma = ma;
     }
-    
+
     public HoaDon(NhanVien nv) {
         this.nv = nv;
     }
@@ -106,6 +109,14 @@ public class HoaDon {
 
     public void setKh(KhachHang kh) {
         this.kh = kh;
+    }
+
+    public Integer getIdKM() {
+        return idKM;
+    }
+
+    public void setIdKM(Integer idKM) {
+        this.idKM = idKM;
     }
 
 }

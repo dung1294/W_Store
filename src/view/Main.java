@@ -22,23 +22,21 @@ public class Main extends javax.swing.JFrame {
             public void selected(int index) {
                 switch (index) {
                     case 0 ->
-                        setForm(new Form_Home());
-                    case 1 ->
                         setForm(new Form_QlSanPham());
-                    case 2 ->
+                    case 1 ->
                         setForm(new Form_BanHang());
-                    case 6 ->
+                    case 5 ->
                         setForm(new Form_QLVoucher());
-                    case 9 ->
+                    case 8 ->
                         logout();
-                    case 10 ->
+                    case 9 ->
                         exit();
                     default -> {
                     }
                 }
             }
         });
-        setForm(new Form_Home());
+        setForm(new Form_QlSanPham());
     }
 
     private void setForm(JComponent com) {

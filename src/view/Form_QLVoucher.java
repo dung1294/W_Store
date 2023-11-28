@@ -4,7 +4,9 @@ import Service.NhanVienService;
 import Service.VoucherService;
 import java.util.Date;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
@@ -295,7 +297,7 @@ public class Form_QLVoucher extends javax.swing.JPanel {
         });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel1.setText("Quản Lý Voucher");
+        jLabel1.setText("Quản Lý Khuyến Mãi");
 
         btnFirstPages.setText("<<");
         btnFirstPages.addActionListener(new java.awt.event.ActionListener() {
@@ -599,18 +601,17 @@ public class Form_QLVoucher extends javax.swing.JPanel {
     }//GEN-LAST:event_tblVoucherMouseClicked
 
     private void btnCTSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCTSPActionPerformed
-        // TODO add your handling code here:
-//        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-//        if (frame != null) {
-//            this.row = tblVoucher.getSelectedRow();
-//            if (row < 0) {
-//                JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm để xem chi tiết!");
-//                return;
-//            }
-//            String maSP = (String) tblVoucher.getValueAt(row, 1);
-//            new SanPhamChiTiet(frame, true, maSP).setVisible(true);
-//            
-//        }
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        if (frame != null) {
+            this.row = tblVoucher.getSelectedRow();
+            if (row < 0) {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn Voucher để xem chi tiết!");
+                return;
+            }
+            String maVC = (String) tblVoucher.getValueAt(row, 1);
+            new VoucherCTJDialog(frame, true, maVC).setVisible(true);
+
+        }
     }//GEN-LAST:event_btnCTSPActionPerformed
 
     private void btnBackPagesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackPagesActionPerformed

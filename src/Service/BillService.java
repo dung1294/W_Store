@@ -18,15 +18,17 @@ public class BillService {
                                 ,[tong_gia]
                                 ,[trang_thai]
                                 ,[tai_khoan_id]
-                                ,[khach_hang_id])
-                          VALUES(?, ?, ?, ?, ?)
+                                ,[khach_hang_id]
+                                ,[KMCT_id])
+                          VALUES(?, ?, ?, ?, ?, ?)
                      """;
         JdbcHelper.update(sql,
                 entity.getNgayTao(),
                 entity.getTongGia(),
                 entity.getTrangThai(),
                 entity.getIdNV(),
-                entity.getIdKH());
+                entity.getIdKH(),
+                entity.getIdKM());
     }
 
     public void update(HoaDon entity) {
